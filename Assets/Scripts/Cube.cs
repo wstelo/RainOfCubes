@@ -9,7 +9,7 @@ public class Cube : MonoBehaviour
     [SerializeField] private TimeViewer _viewer;
 
     private Material _material;
-    private bool _IsStartTime;
+    private bool _isStartTime;
     private int _minDelay = 2;
     private int _maxDelay = 5;
     private Color _defaultColor;
@@ -29,12 +29,14 @@ public class Cube : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(_IsStartTime == false)
+        if(_isStartTime == false)
+        {
             if (collision.gameObject.TryGetComponent(out Platform platform))
             {
                 SetRandomColor();
                 StartCoroutine(StartTimer());
             }
+        }
     }
 
     public void RefreshParameters()
@@ -48,10 +50,10 @@ public class Cube : MonoBehaviour
 
     private IEnumerator StartTimer()
     {
-        _IsStartTime = true;
+        _isStartTime = true;
         int currentTime = 0;
         int secondsCount = 1;
-        var wait = new WaitForSecondsRealtime(secondsCount);
+        var wait = new WaitForSeconds(secondsCount);
 
         _viewer.DisplayTime(currentTime, DelayToDestroy);
 
@@ -63,13 +65,11 @@ public class Cube : MonoBehaviour
         }
 
         EndedTimeToDestroy?.Invoke(this);
-        _IsStartTime = false;
+        _isStartTime = false;
     }
 
     private void SetRandomColor()
     {
         _material.color = new Color (UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value, 255);
     }
-
-
 }
