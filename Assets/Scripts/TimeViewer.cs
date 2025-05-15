@@ -5,6 +5,7 @@ public class TimeViewer : MonoBehaviour
 {
     [SerializeField] private Vector3 _offset;
     [SerializeField] private TMP_Text _timerText;
+    [SerializeField] private Timer _timer;
 
     private void OnValidate()
     {
@@ -14,6 +15,18 @@ public class TimeViewer : MonoBehaviour
     private void Start()
     {
         RefreshTimer();
+    }
+
+    private void OnEnable()
+    {
+        _timer.ChangedTime += DisplayTime;
+        _timer.TimeCountingEnded += RefreshTimer;
+    }
+
+    private void OnDisable()
+    {
+        _timer.ChangedTime -= DisplayTime;
+        _timer.TimeCountingEnded += RefreshTimer;
     }
 
     private void Update()

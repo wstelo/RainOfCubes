@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -64,14 +63,14 @@ public class Spawner : MonoBehaviour
     private Cube CreateObject()
     {
         Cube cube = Instantiate(_cubePrefab, _position, Quaternion.identity);
-        cube.EndedTimeToDestroy += ReleasedObject;
+        cube.Timer.EndedTimeToDestroy += ReleasedObject;
 
         return cube;
     }
 
     private void DestroyObject(Cube cube)
     {
-        cube.EndedTimeToDestroy -= ReleasedObject;
+        cube.Timer.EndedTimeToDestroy -= ReleasedObject;
         Destroy(cube.gameObject);
     }
 
