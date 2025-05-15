@@ -15,6 +15,7 @@ public class Cube : MonoBehaviour
     private Color _defaultColor;
     
     public event Action <Cube> EndedTimeToDestroy;
+    public event Action ChangedTime;
 
     public int DelayToDestroy { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
@@ -22,9 +23,9 @@ public class Cube : MonoBehaviour
     private void Awake()
     {
         _material = GetComponent<MeshRenderer>().material;
-        _defaultColor = _material.color;
         Rigidbody = GetComponent<Rigidbody>();
         DelayToDestroy = UnityEngine.Random.Range(_minDelay, _maxDelay + 1);
+        _defaultColor = _material.color;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -34,7 +35,7 @@ public class Cube : MonoBehaviour
             if (collision.gameObject.TryGetComponent(out Platform platform))
             {
                 SetRandomColor();
-                StartCoroutine(StartTimer());
+                StartCoroutine(TimeCounting());
             }
         }
     }
@@ -48,7 +49,7 @@ public class Cube : MonoBehaviour
         _material.color = _defaultColor;
     }
 
-    private IEnumerator StartTimer()
+    private IEnumerator TimeCounting()
     {
         _isStartTime = true;
         int currentTime = 0;

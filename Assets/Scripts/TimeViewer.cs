@@ -30,5 +30,6 @@ public class TimeViewer : MonoBehaviour
     public void DisplayTime(int currentTime, int delayToDestroy)
     {
         _timerText.text = $"{currentTime} / {delayToDestroy}";
+
     }
 }
